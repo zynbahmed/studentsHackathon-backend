@@ -1,4 +1,4 @@
-const { Student, Course } = require("../models")
+const { Student, Course } = require('../models')
 
 const GetStudents = async (req, res) => {
   try {
@@ -13,18 +13,18 @@ const GetStudentDetails = async (req, res) => {
   const studentID = req.params.student_id
   try {
     const student = await Student.findById(studentID).populate({
-      path: "courses",
+      path: 'courses',
       populate: [
         {
-          path: "grades",
+          path: 'grades',
           populate: {
-            path: "student"
+            path: 'student'
           }
         },
         {
-          path: "grades",
+          path: 'grades',
           populate: {
-            path: "grade"
+            path: 'grade'
           }
         }
       ]
@@ -46,10 +46,9 @@ const CreateStudent = async (req, res) => {
 
 const UpdateStudent = async (req, res) => {
   try {
-    const courses = await Course.find({})
     const student = await Student.updateOne(
-      { _id: req.body.user.id },
-      { $push: { courses: course._id } }
+      { _id: req.params.student_id },
+      { $push: { courses: req.body.course } }
     )
     res.send(student)
   } catch (error) {
