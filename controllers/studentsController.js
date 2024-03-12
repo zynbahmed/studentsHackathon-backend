@@ -46,7 +46,7 @@ const CreateStudent = async (req, res) => {
 
 const UpdateStudent = async (req, res) => {
   try {
-    await Course.updateOne(
+    const course = await Course.updateOne(
       { _id: req.body.course.course },
       {
         $push: {
@@ -59,7 +59,7 @@ const UpdateStudent = async (req, res) => {
     )
     const student = await Student.updateOne(
       { _id: req.params.student_id },
-      { $push: { courses: req.body.course } }
+      { $push: course }
     )
     res.send(student)
   } catch (error) {
