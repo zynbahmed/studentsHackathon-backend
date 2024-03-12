@@ -28,8 +28,22 @@ const CreateStudent = async (req, res) => {
   }
 }
 
+const UpdateStudent = async (req, res) => {
+  try {
+    const student = await Student.findByIdAndUpdate(
+      req.params.student_id,
+      req.body,
+      { new: true }
+    )
+    res.send(student)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetStudents,
   GetStudentDetails,
-  CreateStudent
+  CreateStudent,
+  UpdateStudent
 }
