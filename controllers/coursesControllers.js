@@ -14,13 +14,13 @@ const GetCourseDetails = async (req, res) => {
   try {
     const course = await Course.findById(courseID).populate([
       {
-        path: "gardes",
+        path: "grades",
         populate: {
           path: "student"
         }
       },
       {
-        path: "gardes",
+        path: "grades",
         populate: {
           path: "grade"
         }

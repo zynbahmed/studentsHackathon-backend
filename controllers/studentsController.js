@@ -12,7 +12,23 @@ const GetStudents = async (req, res) => {
 const GetStudentDetails = async (req, res) => {
   const studentID = req.params.student_id
   try {
-    const student = await Student.findById(studentID).populate("courses")
+    const student = await Student.findById(studentID).populate({
+        path: "courses",
+        populate: [
+          {
+            path: "grades", 
+            populate: {
+              path: "student"
+            }
+          },
+          {
+            path: "grades",
+            populate: {
+              path: "grade"
+            }
+          }
+        ]
+      })
     res.send(student)
   } catch (error) {
     throw error
