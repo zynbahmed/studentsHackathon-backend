@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const CoursesRouter = require('./routes/coursesRouter')
 const StudentskRouter = require('./routes/studentsRouter')
+const GradesRouter = require('./routes/gradesRouter')
 
 const PORT = process.env.PORT || 3001
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/courses', CoursesRouter)
 app.use('/students', StudentskRouter)
+app.use('/grades', GradesRouter)
 
 app.use('/', (req, res) => {
   res.send(`Connected!`)
