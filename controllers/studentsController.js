@@ -1,4 +1,4 @@
-const { Student } = require("../models")
+const { Student, Course } = require("../models")
 
 const GetStudents = async (req, res) => {
   try {
@@ -13,22 +13,22 @@ const GetStudentDetails = async (req, res) => {
   const studentID = req.params.student_id
   try {
     const student = await Student.findById(studentID).populate({
-        path: "courses",
-        populate: [
-          {
-            path: "grades", 
-            populate: {
-              path: "student"
-            }
-          },
-          {
-            path: "grades",
-            populate: {
-              path: "grade"
-            }
+      path: "courses",
+      populate: [
+        {
+          path: "grades",
+          populate: {
+            path: "student"
           }
-        ]
-      })
+        },
+        {
+          path: "grades",
+          populate: {
+            path: "grade"
+          }
+        }
+      ]
+    })
     res.send(student)
   } catch (error) {
     throw error
@@ -46,10 +46,10 @@ const CreateStudent = async (req, res) => {
 
 const UpdateStudent = async (req, res) => {
   try {
-    const student = await Student.findByIdAndUpdate(
-      req.params.student_id,
-      req.body,
-      { new: true }
+    const courses = await Course.find({})
+    const student = await Student.updateOne(
+      { _id: req.body.user.id },
+      { $push: { courses: course._id } }
     )
     res.send(student)
   } catch (error) {
