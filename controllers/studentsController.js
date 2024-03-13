@@ -29,6 +29,30 @@ const GetStudentDetails = async (req, res) => {
         }
       ]
     })
+
+    if (student.courses && student.courses.length > 0) {
+      let totalScore = 0
+      let totalGrades = 0
+
+      for (const course of student.courses) {
+        for (const grade of course.grades) {
+          if (grade) {
+            totalScore += parseInt(grade.grade.score)
+            totalGrades++
+          }
+        }
+      }
+
+      if (totalGrades > 0) {
+        const overallGPA = totalScore / totalGrades
+        console.log(overallGPA)
+        await Student.updateOne(
+          { _id: req.params.student_id },
+          { GPA: overallGPA }
+        )
+      }
+    }
+
     res.send(student)
   } catch (error) {
     throw error

@@ -6,7 +6,7 @@ const studentSchema = new Schema(
     email: { type: String },
     id: { type: Number },
     courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-    GPA: { type: Number }
+    GPA: { type: Number, default: 0 }
   },
   { timestamps: true }
 )
