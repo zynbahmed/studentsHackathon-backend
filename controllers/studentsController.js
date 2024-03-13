@@ -44,7 +44,7 @@ const GetStudentDetails = async (req, res) => {
       }
 
       if (totalGrades > 0) {
-        const overallGPA = totalScore / totalGrades
+        const overallGPA = (totalScore / totalGrades).toFixed(2)
         await Student.updateOne({ _id: studentID }, { GPA: overallGPA })
       }
     }
