@@ -36,7 +36,7 @@ const GetStudentDetails = async (req, res) => {
 
       for (const course of student.courses) {
         for (const grade of course.grades) {
-          if (grade) {
+          if (grade && grade.student._id.toString() === studentID) {
             totalScore += parseInt(grade.grade.score)
             totalGrades++
           }
@@ -45,11 +45,7 @@ const GetStudentDetails = async (req, res) => {
 
       if (totalGrades > 0) {
         const overallGPA = totalScore / totalGrades
-        console.log(overallGPA)
-        await Student.updateOne(
-          { _id: req.params.student_id },
-          { GPA: overallGPA }
-        )
+        await Student.updateOne({ _id: studentID }, { GPA: overallGPA })
       }
     }
 
